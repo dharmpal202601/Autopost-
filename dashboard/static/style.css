@@ -1,0 +1,34 @@
+/* dashboard/static/style.css
+   Additional animations and print styles.
+   Main styles are inline in index.html for single-file portability.
+*/
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
+  50%       { box-shadow: 0 0 35px rgba(0, 255, 136, 0.5); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-slide-up  { animation: slide-up 0.4s ease; }
+.animate-fade-in   { animation: fade-in 0.3s ease; }
+.animate-glow      { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* Force hardware acceleration on animated elements */
+.status-pill, .badge-processing, .btn-toggle {
+  will-change: transform, opacity;
+}
+
+@media print {
+  .sidebar, .topbar, .toast-container { display: none !important; }
+  .main { margin: 0; }
+  .content { padding: 0; }
+}

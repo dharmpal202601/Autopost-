@@ -1,0 +1,29 @@
+{
+  "whatsapp": {
+    "channel_url": "https://whatsapp.com/channel/YOUR_CHANNEL_ID",
+    "poll_interval_seconds": 60,
+    "poll_jitter_seconds": 30
+  },
+  "meta": {
+    "app_id": "YOUR_META_APP_ID",
+    "app_secret_encrypted": "",
+    "page_id": "YOUR_FACEBOOK_PAGE_ID",
+    "page_access_token_encrypted": "",
+    "ig_user_id": "YOUR_INSTAGRAM_USER_ID",
+    "ig_access_token_encrypted": ""
+  },
+  "publishing": {
+    "delay_seconds": 0,
+    "publish_to_facebook": true,
+    "publish_to_instagram": true,
+    "max_retries": 3
+  },
+  "dashboard": {
+    "port": 5000,
+    "host": "127.0.0.1"
+  },
+  "image_host": {
+    "provider": "ngrok",
+    "imgbb_api_key_encrypted": ""
+  }
+}

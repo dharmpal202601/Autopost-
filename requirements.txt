@@ -1,0 +1,15 @@
+playwright==1.44.0
+requests==2.31.0
+flask==3.0.3
+flask-socketio==5.3.6
+eventlet==0.36.1
+flask-sqlalchemy==3.1.1
+sqlalchemy==2.0.30
+cryptography==42.0.8
+keyring==25.2.1
+Pillow==10.3.0
+rich==13.7.1
+pyngrok==7.1.6
+schedule==1.2.1
+pywin32==306
+click==8.1.7

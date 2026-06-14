@@ -1,0 +1,29 @@
+{
+  "whatsapp": {
+    "channel_url": "https://whatsapp.com/channel/0029Va8AUyvCMY0KLra9Mi1f",
+    "poll_interval_seconds": 30,
+    "poll_jitter_seconds": 30
+  },
+  "meta": {
+    "app_id": "2481372532340175",
+    "app_secret_encrypted": "gAAAAABqLnIHhHJHLn83tpArEl2zrimo0qi6lhYRfKVbcQz3ZC3TafMzLX-mNKQdvFxjKgnY6QLTm8-ngczh7-EuZcn2B4cYPiDJgYemy28gzX9_BKB92PxZRCizSZCWgr_CeSyBE4j5",
+    "page_id": "1220668717786189",
+    "page_access_token_encrypted": "gAAAAABqLpkI6NpZRFhakGEHVFz8f9EGdGOIghDv5uU2q8a24VwvWyei8cUn_rmdi6sdagrY2jw04HRQG14lxwlMMyiMSjaqm7FJuDXIGfX12clh3ZfbCQY1iP3DY8YijL0zxWQKBC5KTN-LhtdFXqYGUE9vu0BA_G-OKFpV-hZPsdzQJ6SSGEDSarFrXsx9o2WENwyWzx_mPvHYgalX2-HRxj9dq_G3Q7yjTcb2_6KK5sMQE7hmN3Dc8Wmwb-IFgPRXdGI74j33hQYP52UGjqwcMdUcw2C4VwfQa3QCbjV7XCqk4WrKnhhK6XJdhHdfF-JBe1Nh-Db2Z7MwmjD4JVta2rDm354Ebw==",
+    "ig_user_id": "17841425957860327",
+    "ig_access_token_encrypted": "gAAAAABqLpxLN1Egtqv1OXnw-Fpk2rGJyhPCLvsah_t3qC0dzRoMnJxe--JmsGWjD8-9Y-5hs27CdD2GRnf6n2z9drZrgqfPwJREYdD96lYil291SlYacTpCX7rlZqNS3-w8EXXvkAgCPufz-EHN_WBGsDMTN60TIWc_FWFNei1gKV0-kLkee-x9yzNF18q5WzvQWZykxb0STjyVVanDTh63n-02lAoTfUDrjmky-myJW_vWUrmVFNQO2ZAu_J_6vpNTnkB15z1MFSF-xFStjaD8tJKLKNrv17iA9ZKITkocDeOU1fczWrhviYqvaQjkElWge8PxvQstOy7E3xdf45_deCldoenQdQ=="
+  },
+  "publishing": {
+    "delay_seconds": 0,
+    "publish_to_facebook": true,
+    "publish_to_instagram": true,
+    "max_retries": 3
+  },
+  "dashboard": {
+    "port": 5000,
+    "host": "127.0.0.1"
+  },
+  "image_host": {
+    "provider": "ngrok",
+    "imgbb_api_key_encrypted": ""
+  }
+}

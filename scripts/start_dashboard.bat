@@ -1,0 +1,3 @@
+@echo off
+echo Opening WA Auto Publisher Dashboard...
+start "" http://localhost:5000
