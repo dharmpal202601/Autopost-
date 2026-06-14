@@ -1385,6 +1385,7 @@ async function startFacebookLogin() {
 window.addEventListener('message', async (event) => {
   if (event.data && event.data.type === 'fb_login_success') {
     const token = event.data.token;
+    localStorage.setItem('fb_user_token', token); // Save for manual fallback
     showToast("Facebook connected! Fetching pages...", "success");
     try {
       const r = await fetch('/api/auth/facebook/pages', {
