@@ -503,7 +503,8 @@ def _register_routes(app: Flask) -> None:
             perms_data = perm_resp.json() if perm_resp.ok else {}
             
             if not pages:
-                return jsonify({"success": False, "error": f"API returned empty list. Data: {pages_data}, Perms: {perms_data}"})
+                # Return success True but empty pages list, so frontend fallback triggers
+                return jsonify({"success": True, "pages": [], "debug_perms": perms_data})
                 
             return jsonify({"success": True, "pages": pages, "debug_perms": perms_data})
         except Exception as e:
