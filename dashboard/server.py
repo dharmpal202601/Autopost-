@@ -410,12 +410,8 @@ def _register_routes(app: Flask) -> None:
         if not app_id:
             return jsonify({"success": False, "error": "Meta App ID not configured"})
         
-        # Facebook strictly requires 'localhost' instead of '127.0.0.1' for HTTP redirects
-        host = APP_CONFIG.get_dashboard_host()
-        if host == "127.0.0.1":
-            host = "localhost"
-            
-        redirect_uri = f"http://{host}:{APP_CONFIG.get_dashboard_port()}/auth/facebook/callback"
+        # Dynamically build the redirect URI based on where the app is hosted (e.g. Railway or localhost)
+        redirect_uri = urllib.parse.urljoin(request.host_url, "auth/facebook/callback")
         scopes = "pages_manage_posts,pages_read_engagement,pages_show_list"
         auth_url = (
             f"https://www.facebook.com/v25.0/dialog/oauth?"
@@ -438,10 +434,7 @@ def _register_routes(app: Flask) -> None:
         app_id = APP_CONFIG.get_app_id()
         app_secret = APP_CONFIG.get_app_secret()
         
-        host = APP_CONFIG.get_dashboard_host()
-        if host == "127.0.0.1":
-            host = "localhost"
-        redirect_uri = f"http://{host}:{APP_CONFIG.get_dashboard_port()}/auth/facebook/callback"
+        redirect_uri = urllib.parse.urljoin(request.host_url, "auth/facebook/callback")
         
         if not app_secret:
             return "<h1>Error</h1><p>App Secret is missing! Please save it in settings first.</p><a href='/'>Go back</a>"
