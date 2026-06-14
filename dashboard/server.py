@@ -495,8 +495,17 @@ def _register_routes(app: Flask) -> None:
                 "fields": "id,name,access_token"
             })
             resp.raise_for_status()
-            pages = resp.json().get("data", [])
-            return jsonify({"success": True, "pages": pages})
+            pages_data = resp.json()
+            pages = pages_data.get("data", [])
+            
+            # Fetch permissions for debugging
+            perm_resp = requests.get("https://graph.facebook.com/v25.0/me/permissions", params={"access_token": user_token})
+            perms_data = perm_resp.json() if perm_resp.ok else {}
+            
+            if not pages:
+                return jsonify({"success": False, "error": f"API returned empty list. Data: {pages_data}, Perms: {perms_data}"})
+                
+            return jsonify({"success": True, "pages": pages, "debug_perms": perms_data})
         except Exception as e:
             return jsonify({"success": False, "error": str(e)})
 
