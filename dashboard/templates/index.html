@@ -849,7 +849,12 @@
                 <div id="fb-pages-container" style="display: none; margin-top: 10px; background: var(--bg-card); padding: 16px; border: 1px solid var(--border); border-radius: 8px;">
                   <label class="form-label">Select Facebook Page to Post to:</label>
                   <select id="fb-pages-select" class="form-input" style="margin-bottom: 12px;"></select>
-                  <button type="button" class="btn btn-secondary" onclick="saveFacebookPage()">Save Selected Page</button>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="saveFacebookPage()">Save Page Selection</button>
+                </div>
+                <div id="fb-manual-container" style="display: none; margin-top: 10px; background: var(--bg-card); padding: 16px; border: 1px solid var(--border); border-radius: 8px;">
+                  <label class="form-label">Facebook API returned an empty list. Enter your Page ID manually:</label>
+                  <input type="text" id="fb-manual-page-id" class="form-input" placeholder="e.g. 1220668717786189" style="margin-bottom: 12px;" />
+                  <button type="button" class="btn btn-primary btn-sm" onclick="saveFacebookPageManual()">Link Page ID</button>
                 </div>
                 <div id="ig-accounts-container" style="display: none; margin-top: 10px; background: var(--bg-card); padding: 16px; border: 1px solid var(--border); border-radius: 8px;">
                   <label class="form-label">Linked Instagram Business Account:</label>
@@ -1390,7 +1395,11 @@ window.addEventListener('message', async (event) => {
       const d = await r.json();
       if (d.success) {
         if (!d.pages || d.pages.length === 0) {
-           showToast("No Facebook Pages found for this account.", "error");
+           showToast("No Facebook Pages found automatically. Please enter your Page ID manually.", "error");
+           document.getElementById('fb-pages-container').style.display = 'none';
+           // Show manual fallback
+           const manualContainer = document.getElementById('fb-manual-container');
+           if (manualContainer) manualContainer.style.display = 'block';
            return;
         }
         const container = document.getElementById('fb-pages-container');
@@ -1426,6 +1435,34 @@ async function saveFacebookPage() {
       document.getElementById('set-page-id').value = pageId;
       document.getElementById('set-page-token').value = ""; 
       document.getElementById('fb-pages-container').style.display = 'none';
+      setTimeout(refreshStatus, 500);
+    } else {
+      showToast(d.error, "error");
+    }
+  } catch(e) {
+    showToast("Network error", "error");
+  }
+}
+
+async function saveFacebookPageManual() {
+  const pageId = document.getElementById('fb-manual-page-id').value.trim();
+  const token = localStorage.getItem('fb_user_token');
+  if (!pageId) {
+    showToast("Please enter a Page ID", "error");
+    return;
+  }
+  
+  try {
+    const r = await fetch('/api/auth/facebook/manual', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({page_id: pageId, user_token: token})
+    });
+    const d = await r.json();
+    if (d.success) {
+      showToast(d.message, "success");
+      document.getElementById('set-page-id').value = pageId;
+      document.getElementById('fb-manual-container').style.display = 'none';
       setTimeout(refreshStatus, 500);
     } else {
       showToast(d.error, "error");

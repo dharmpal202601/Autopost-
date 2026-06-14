@@ -509,6 +509,32 @@ def _register_routes(app: Flask) -> None:
         except Exception as e:
             return jsonify({"success": False, "error": str(e)})
 
+    @app.route("/api/auth/facebook/manual", methods=["POST"])
+    def api_auth_facebook_manual():
+        data = request.get_json(force=True) or {}
+        user_token = data.get("user_token")
+        page_id = data.get("page_id")
+        if not user_token or not page_id:
+            return jsonify({"success": False, "error": "Missing token or page_id"})
+        try:
+            resp = requests.get(f"https://graph.facebook.com/v25.0/{page_id}", params={
+                "access_token": user_token,
+                "fields": "id,name,access_token"
+            })
+            resp.raise_for_status()
+            page_data = resp.json()
+            page_token = page_data.get("access_token")
+            if not page_token:
+                return jsonify({"success": False, "error": "Could not get page access token. Ensure you selected this page."})
+            
+            APP_CONFIG.set("meta.page_id", page_id)
+            APP_CONFIG.set("meta.page_access_token_encrypted", APP_CONFIG.encrypt_token(page_token))
+            APP_CONFIG.save()
+            app_logger.info(f"Facebook Page manually connected: {page_id}", source="system")
+            return jsonify({"success": True, "message": f"Successfully connected page: {page_data.get('name')}"})
+        except Exception as e:
+            return jsonify({"success": False, "error": str(e)})
+
     @app.route("/api/auth/facebook/save", methods=["POST"])
     def api_auth_facebook_save():
         data = request.get_json(force=True) or {}
