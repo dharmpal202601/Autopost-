@@ -412,6 +412,8 @@ def _register_routes(app: Flask) -> None:
         
         # Dynamically build the redirect URI based on where the app is hosted (e.g. Railway or localhost)
         redirect_uri = urllib.parse.urljoin(request.host_url, "auth/facebook/callback")
+        if "localhost" not in redirect_uri and "127.0.0.1" not in redirect_uri:
+            redirect_uri = redirect_uri.replace("http://", "https://")
         scopes = "pages_manage_posts,pages_read_engagement,pages_show_list"
         auth_url = (
             f"https://www.facebook.com/v25.0/dialog/oauth?"
@@ -433,8 +435,9 @@ def _register_routes(app: Flask) -> None:
             return "<h1>Error</h1><p>No authorization code received.</p><a href='/'>Go back</a>"
         app_id = APP_CONFIG.get_app_id()
         app_secret = APP_CONFIG.get_app_secret()
-        
         redirect_uri = urllib.parse.urljoin(request.host_url, "auth/facebook/callback")
+        if "localhost" not in redirect_uri and "127.0.0.1" not in redirect_uri:
+            redirect_uri = redirect_uri.replace("http://", "https://")
         
         if not app_secret:
             return "<h1>Error</h1><p>App Secret is missing! Please save it in settings first.</p><a href='/'>Go back</a>"
